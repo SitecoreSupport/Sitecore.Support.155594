@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Sitecore.Support
+namespace Sitecore.Support.Publishing.Pipelines.PublishItem
 {
     public class ResetStandardValue
     {
@@ -15,7 +15,7 @@ namespace Sitecore.Support
         {
             Item sourceItem = context.PublishHelper.GetSourceItem(context.ItemId);
             Item targetItem = context.PublishHelper.GetTargetItem(context.ItemId);
-            if (sourceItem.SourceUri != null)
+            if (sourceItem.SourceUri != null && targetItem != null)
             {
                 Item item = Database.GetItem(sourceItem.SourceUri);
                 if (item != null)
@@ -30,11 +30,9 @@ namespace Sitecore.Support
                             {
                                 using (new Sitecore.SecurityModel.SecurityDisabler())
                                 {
-                                    using (new Sitecore.Data.Items.EditContext(targetItem))
+                                    using (new Sitecore.Data.Items.EditContext(targetItem, false, true))
                                     {
-                                        targetItem.Editing.BeginEdit();
                                         targetItem.Fields["__renderings"].Reset();
-                                        targetItem.Editing.EndEdit();
                                     }
                                 }
                             }
@@ -45,11 +43,9 @@ namespace Sitecore.Support
                             {
                                 using (new Sitecore.SecurityModel.SecurityDisabler())
                                 {
-                                    using (new Sitecore.Data.Items.EditContext(targetItem))
+                                    using (new Sitecore.Data.Items.EditContext(targetItem, false, true))
                                     {
-                                        targetItem.Editing.BeginEdit();
                                         targetItem.Fields["__final renderings"].Reset();
-                                        targetItem.Editing.EndEdit();
                                     }
                                 }
                             }
