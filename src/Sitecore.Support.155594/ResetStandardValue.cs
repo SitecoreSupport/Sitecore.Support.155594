@@ -28,13 +28,10 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
                         {
                             if (sourceItem.Fields["__renderings"].Value == item.Fields["__renderings"].GetStandardValue())
                             {
-                                using (new Sitecore.SecurityModel.SecurityDisabler())
+                                using (new EditContext(targetItem, Sitecore.SecurityModel.SecurityCheck.Disable))
                                 {
-                                    using (new Sitecore.Data.Items.EditContext(targetItem, false, true))
-                                    {
-                                        targetItem.Fields["__renderings"].Reset();
-                                        targetItem.Editing.EndEdit();
-                                    }
+                                    targetItem.Fields["__renderings"].Reset();
+                                    Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__renderings)");
                                 }
                             }
                         }
@@ -42,14 +39,11 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
                         {
                             if (sourceItem.Fields["__final renderings"].Value == item.Fields["__final renderings"].GetStandardValue())
                             {
-                                using (new Sitecore.SecurityModel.SecurityDisabler())
+                                using (new EditContext(targetItem, Sitecore.SecurityModel.SecurityCheck.Disable))
                                 {
-                                    using (new Sitecore.Data.Items.EditContext(targetItem, false, true))
-                                    {
-                                        targetItem.Fields["__final renderings"].Reset();
-                                        targetItem.Editing.EndEdit();
-                                    }
-                                }
+                                    targetItem.Fields["__final renderings"].Reset();
+                                    Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__final renderings)");
+                                }                               
                             }
                         }
                     }
