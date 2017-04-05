@@ -33,6 +33,7 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
                                     using (new Sitecore.Data.Items.EditContext(targetItem, false, true))
                                     {
                                         targetItem.Fields["__renderings"].Reset();
+                                        targetItem.Editing.EndEdit();
                                     }
                                 }
                             }
@@ -46,6 +47,7 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
                                     using (new Sitecore.Data.Items.EditContext(targetItem, false, true))
                                     {
                                         targetItem.Fields["__final renderings"].Reset();
+                                        targetItem.Editing.EndEdit();
                                     }
                                 }
                             }
