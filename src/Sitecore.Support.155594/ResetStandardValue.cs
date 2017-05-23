@@ -13,42 +13,63 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
     {
         public virtual void Process(PublishItemContext context)
         {
-            Item sourceItem = context.PublishHelper.GetSourceItem(context.ItemId);
-            Item targetItem = context.PublishHelper.GetTargetItem(context.ItemId);
-            if (sourceItem.SourceUri != null && targetItem != null)
+            if (context != null)
             {
-                Item item = Database.GetItem(sourceItem.SourceUri);
-                if (item != null)
+                Item sourceItem = context.PublishHelper.GetSourceItem(context.ItemId);
+                Item targetItem = context.PublishHelper.GetTargetItem(context.ItemId);
+                if (targetItem != null && sourceItem != null)
                 {
-                    FieldCollection fields = item.Fields;
-                    fields.ReadAll();
-                    foreach (Sitecore.Data.Fields.Field field in fields)
+                    if (sourceItem.SourceUri != null)
                     {
-                        if (field.Key == "__renderings" && field.ContainsStandardValue)
+                        Item item = Database.GetItem(sourceItem.SourceUri);
+                        if (item != null)
                         {
-                            if (sourceItem.Fields["__renderings"].Value == item.Fields["__renderings"].GetStandardValue())
+                            FieldCollection fields = item.Fields;
+                            if (fields != null)
                             {
-                                using (new EditContext(targetItem, Sitecore.SecurityModel.SecurityCheck.Disable))
+                                fields.ReadAll();
+                                foreach (Sitecore.Data.Fields.Field field in fields)
                                 {
-                                    targetItem.Fields["__renderings"].Reset();
-                                    Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__renderings)");
+                                    if (field.Key == "__renderings" && field.ContainsStandardValue)
+                                    {
+                                        if (sourceItem.Fields["__renderings"]!= null && item.Fields["__renderings"]!= null)
+                                        {
+                                            if (sourceItem.Fields["__renderings"].Value == item.Fields["__renderings"].GetStandardValue())
+                                            {
+                                                using (new EditContext(targetItem, Sitecore.SecurityModel.SecurityCheck.Disable))
+                                                {
+                                                    if (targetItem.Fields["__renderings"] != null)
+                                                    {
+                                                        targetItem.Fields["__renderings"].Reset();
+                                                        Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__renderings)");
+                                                    }                                                   
+                                                }
+                                            }
+                                        }                                        
+                                    }
+                                    if (field.Key == "__final renderings" && field.ContainsStandardValue)
+                                    {
+                                        if (sourceItem.Fields["__final renderings"]!= null && item.Fields["__final renderings"]!=null)
+                                        {
+                                            if (sourceItem.Fields["__final renderings"].Value == item.Fields["__final renderings"].GetStandardValue())
+                                            {
+                                                using (new EditContext(targetItem, Sitecore.SecurityModel.SecurityCheck.Disable))
+                                                {
+                                                    if (targetItem.Fields["__final renderings"] != null)
+                                                    {
+                                                        targetItem.Fields["__final renderings"].Reset();
+                                                        Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__final renderings)");
+                                                    }                                                    
+                                                }
+                                            }
+                                        }                                       
+                                    }
                                 }
-                            }
-                        }
-                        if (field.Key == "__final renderings" && field.ContainsStandardValue)
-                        {
-                            if (sourceItem.Fields["__final renderings"].Value == item.Fields["__final renderings"].GetStandardValue())
-                            {
-                                using (new EditContext(targetItem, Sitecore.SecurityModel.SecurityCheck.Disable))
-                                {
-                                    targetItem.Fields["__final renderings"].Reset();
-                                    Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__final renderings)");
-                                }                               
-                            }
+                            }                            
                         }
                     }
-                }
-            }
+                }                
+            }            
         }
     }
 }
