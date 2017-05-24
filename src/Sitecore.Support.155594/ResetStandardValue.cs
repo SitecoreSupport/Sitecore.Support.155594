@@ -41,7 +41,7 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
                                                     if (targetItem.Fields["__renderings"] != null)
                                                     {
                                                         targetItem.Fields["__renderings"].Reset();
-                                                        Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__renderings)");
+                                                        Sitecore.Diagnostics.Log.Debug("Sitecore.Support.155594 Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__renderings)");
                                                     }                                                   
                                                 }
                                             }
@@ -58,7 +58,7 @@ namespace Sitecore.Support.Publishing.Pipelines.PublishItem
                                                     if (targetItem.Fields["__final renderings"] != null)
                                                     {
                                                         targetItem.Fields["__final renderings"].Reset();
-                                                        Sitecore.Diagnostics.Log.Debug("!!! Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__final renderings)");
+                                                        Sitecore.Diagnostics.Log.Debug("Sitecore.Support.155594 Sitecore.Support.Publishing.Pipelines.PublishItem.ResetStandardValue made the field reset. (__final renderings)");
                                                     }                                                    
                                                 }
                                             }
